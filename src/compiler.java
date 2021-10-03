@@ -105,21 +105,7 @@ public class compiler {
         }
        
             }
-//              else if(fileInput.charAt(i)=='.')
-//              {
-//                  if(isNumeric(temp)) //temphas numbers 
-//                  {
-//                      temp+= fileInput.charAt(i);
-//                  }
-//                  else{             //has no numbers
-//                     allChars.add(temp);
-//                      temp="";
-//                      
-//                       temp+= fileInput.charAt(i);
-//                       allChars.add(temp);
-//                       temp="";}
-//                   
-//              }
+
            else if(isPunctuator(fileInput.charAt(i))){
                     
                if(fileInput.charAt(i)=='.' && isNumeric(temp))
