@@ -20,7 +20,7 @@ public class mycompiler {
          String  data =readFile();
     
       words =   c.breakWords(data);
-    
+      System.out.println(words.size());
       for(String w : words){
   System.out.println(w);
   }
