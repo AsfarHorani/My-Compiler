@@ -11,7 +11,7 @@ public class compiler {
          //"as"
         for(int i=0;i<fileInput.length();i++){
            
-            if(fileInput.charAt(i)=='"' && i<fileInput.length()){
+            if(fileInput.charAt(i)=='"'){
                     //string conditions
             
                      do{
@@ -47,7 +47,7 @@ public class compiler {
                      temp="";
                     }
                 else if(fileInput.charAt(i)=='/')
-                { 
+                { //comment conditions
                 
                     if(fileInput.charAt(i=i+1)=='*')
                     {  
@@ -80,7 +80,34 @@ public class compiler {
                         allChars.add(temp);
                            temp="";
                        
+                    }else if(fileInput.charAt(i)=='/')
+                    {
+                          temp+= fileInput.charAt(i-1); 
+                          temp+= fileInput.charAt(i); 
+                          i++;
+                     do{
+                           temp+= fileInput.charAt(i); 
+                             i++;
+                  if(i<fileInput.length())
+                  {
+                      if(fileInput.charAt(i)=='\n')
+                    { 
+                         
+                         break;
                     }
+                  }
+                   
+               
+                        }while(i<fileInput.length());
+                          allChars.add(temp);
+                          temp="";
+                        
+                    }
+                    
+                    
+                    
+                    
+                   
                 }
             
         else{
@@ -99,7 +126,7 @@ public class compiler {
                 
          if(!temp.isEmpty())
         {
-          
+              
               allChars.add(temp);
               temp="";
         }
@@ -127,7 +154,16 @@ public class compiler {
                 
             } else if(isOperator(fileInput.charAt(i)))
             {
-                  if(!temp.isEmpty() ){
+                    if((fileInput.charAt(i)=='+' || fileInput.charAt(i)=='-') && shouldConcatNum(fileInput,i))
+               {
+                    allChars.add(temp);
+                    temp="";
+                    temp+= fileInput.charAt(i);
+                    i++;
+                    temp+= fileInput.charAt(i);
+                    
+               } else{
+                            if(!temp.isEmpty() ){
                     allChars.add(temp);
                     temp="";
                 }
@@ -142,7 +178,11 @@ public class compiler {
                       
                     
                     
+                  
                     
+                    }
+                
+            
             }
              
             
@@ -156,7 +196,6 @@ public class compiler {
                  }  
           
         }
-        
         if(!temp.isEmpty() )
         {
            
@@ -170,7 +209,7 @@ public class compiler {
        
        
          private boolean isPunctuator(char c){
-             char [] punc = {':', ';','(',')', '{', '}', '?', '[',']','.' };
+             char [] punc = {':', ';','(',')', '{', '}', '?', '[',']','.',',' };
              for(char ch : punc)
              {
                  if(c==ch)
@@ -225,20 +264,15 @@ public class compiler {
              return false;
          }
          
-         
-         private static boolean shouldEndCmt(int i , String file)
+         private static boolean shouldConcatNum(String input , int i)
          {
-             if(file.charAt(i)=='*')
-             {
-                 if(file.charAt(i=i+1)=='/')
-                 {
-                     return true;
-                 }
-             }
-             
-             return false;
+              if(!isNumeric( Character.toString(input.charAt(i-1)) ) && isNumeric(Character.toString(input.charAt(i+1))))
+               {
+                   return true;
+               }
+               
+         return false;
          }
-          
          
 }
 
