@@ -135,6 +135,7 @@ public class compiler {
 
            else if(isPunctuator(fileInput.charAt(i))){
                     
+               
                if(fileInput.charAt(i)=='.' && isNumeric(temp))
                {
                      temp+= fileInput.charAt(i);
@@ -172,9 +173,10 @@ public class compiler {
                     {
                         temp+= fileInput.charAt(i);
                     
+                    }
+                    
                         allChars.add(temp);
                         temp=""; 
-                    }
                       
                     
                     
@@ -266,11 +268,7 @@ public class compiler {
          
          private static boolean shouldConcatNum(String input , int i)
          {
-              if(!isNumeric( Character.toString(input.charAt(i-1)) ) && isNumeric(Character.toString(input.charAt(i+1))))
-               {
-                   return true;
-               }
-               
+          
          return false;
          }
          
