@@ -26,8 +26,13 @@ public class compiler {
                        
                         temp+= fileInput.charAt(i);
                      }
-                     allChars.add(temp);
-                     temp="";
+                       if(!temp.isEmpty())
+                       {
+                           allChars.add(temp);
+                          temp="";
+                       }
+                     
+                
                     }
                 else if(fileInput.charAt(i)=='\''){
                       //char conditions
@@ -112,7 +117,7 @@ public class compiler {
             
         else{
             //general
-              if(fileInput.charAt(i)==' '){
+              if(fileInput.charAt(i)=='\r' || fileInput.charAt(i)==' '){
                   
                if(!temp.isEmpty() ){
                     
@@ -123,10 +128,8 @@ public class compiler {
         }
               else if(fileInput.charAt(i)=='\n')
             {
-                
          if(!temp.isEmpty())
         {
-              
               allChars.add(temp);
               temp="";
         }
@@ -146,8 +149,9 @@ public class compiler {
                     allChars.add(temp);
                     temp="";
                 }
-               
+                  
                     temp+= fileInput.charAt(i);
+                    System.out.println(temp);
                     allChars.add(temp);
                     temp="";
                }
@@ -155,52 +159,55 @@ public class compiler {
                 
             } else if(isOperator(fileInput.charAt(i)))
             {
+             
                     if((fileInput.charAt(i)=='+' || fileInput.charAt(i)=='-') && shouldConcatNum(fileInput,i))
                {
-                    allChars.add(temp);
-                    temp="";
+                   
+                  if(!temp.isEmpty() && temp!=" ")
+                    {
+                     allChars.add(temp);
+                      temp="";
+                    }
+                    
                     temp+= fileInput.charAt(i);
                     i++;
                     temp+= fileInput.charAt(i);
+                 
                     
                } else{
-                            if(!temp.isEmpty() ){
+               
+                    if(!temp.isEmpty()){
                     allChars.add(temp);
                     temp="";
                 }
                     temp+= fileInput.charAt(i);
-                    if(isOperator(fileInput.charAt(i++)))
+                    if(i<fileInput.length()-1)  //++   0 2
+                     {
+                        if(isOperator(fileInput.charAt(i+1)))
                     {
                         temp+= fileInput.charAt(i);
-                    
+                        i++;
                     }
-                    
-                        allChars.add(temp);
-                        temp=""; 
-                      
-                    
-                    
-                  
-                    
                     }
                 
-            
-            }
+                     allChars.add(temp);
+                     temp=""; 
+  }
+}
              
             
             else{
          
                  temp+=fileInput.charAt(i);
-            
+               
            
             }
             
                  }  
           
         }
-        if(!temp.isEmpty() )
+        if(!temp.isEmpty())
         {
-           
               allChars.add(temp);
               temp="";
         }
@@ -224,7 +231,7 @@ public class compiler {
              return false;
         }
          
-        private boolean isOperator(char c)
+        private static boolean isOperator(char c)
          {
              char [] opr = {'+','-','/','*', '=','%','<','>','!','&','|'};
               for(char op : opr)
@@ -267,7 +274,25 @@ public class compiler {
          }
          
          private static boolean shouldConcatNum(String input , int i)
-         {
+         {//1+1 1
+             if(i<input.length()-1) //to check if next char exists
+             {
+               if( isNumeric( String.valueOf( input.charAt(i+1))) )// to check if next char is a number
+             {
+                 if(i>0)  //to check if opr is not first index
+                 {
+                   return  (!isNumeric( String.valueOf( input.charAt(i-1))) || (input.charAt(i-1)==' ' || input.charAt(i-1)=='\r' )) && input.charAt(i-1)!='+' && input.charAt(i-1)!='-' && !Character.isLetter(input.charAt(i-1));
+                  
+                 }
+                 else
+                 {
+                     return true; 
+                 }
+          
+             }
+             }
+             
+         
           
          return false;
          }

@@ -20,7 +20,7 @@ public class mycompiler {
          String  data =readFile();
     
       words =   c.breakWords(data);
-      System.out.println(words.size());
+      System.out.println("Total number of words: " + words.size()+ "\n");
       for(String w : words){
   System.out.println(w);
   }
