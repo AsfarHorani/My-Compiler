@@ -2,7 +2,59 @@ import Utili.myUtil;
 import java.util.ArrayList;
 
 
+
 public class myCompiler {
+     
+     String [][] keywords = {
+         {"int","dataType"},
+         {"float","dataType"},
+         {"String","dataType"},
+         {"double","dataType"},
+         {"char","dataType"},
+         { "class","class"},
+         { "void","void"},
+         {"do","do"},
+        {"while","while"},
+        {"if","if"},
+        {"else","else"},
+    {"return","return"},
+        {"public", "accessModifier"},
+        {
+             "private",
+             "accessModifier"
+        },
+        {
+             "protected",
+             "accessModifier"
+        },
+        {
+             "static",
+             "static"
+        },
+        {
+             "abstract",
+             "abstract"
+        }
+        ,{
+             "final",
+             "final"
+        },
+        {
+             "new",
+             "new"
+        },
+        {
+             "this",
+             "this"
+        },
+        {
+             "super",
+             "super"
+        }
+     };
+
+
+    
  public ArrayList <String> breakWords(String fileInput){
         String temp="";
          ArrayList <String> allChars = new ArrayList();
@@ -318,7 +370,15 @@ public class myCompiler {
        
       return allChars;  
     }
-         
+      
+ 
+ public  ArrayList<Token> generateTokens(ArrayList<String> words)
+ {
+     ArrayList<Token> tokenList = new ArrayList<Token>();
+     
+      return tokenList;
+ }
+ 
 }
 
 
