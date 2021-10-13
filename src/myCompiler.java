@@ -145,25 +145,42 @@ public class myCompiler {
                                words.add(temp);
                                 temp="";
                       }
-             
-                           temp+= fileInput.charAt(i);
+                      temp+= fileInput.charAt(i);
                            i++;
-                           
-                           if(fileInput.charAt(i)=='\\')
+                           int p =1;
+                           boolean occ = false;
+                     do{
+                       //'\a' 'a'
+                           if(i>fileInput.length()-1)
+                           {
+                                words.add(temp);
+                               temp="";
+                                break;
+                           }
+                           else if(fileInput.charAt(i)=='\n')
+                           {
+                                 words.add(temp);
+                                 temp="";
+                                 temp+= fileInput.charAt(i);
+                                 words.add(temp);
+                                break;
+                           }
+                           else if(fileInput.charAt(i)=='\\' && !occ)
                            {
                                temp+= fileInput.charAt(i);
                                i++;
-                               temp+= fileInput.charAt(i);
-                               i++;
+                               occ=true;
+                              
                     
-                           }
-                           else{
-                                   temp+= fileInput.charAt(i);
+                           }else{
+                               temp+= fileInput.charAt(i);
                                    i++;
-
-                                   }
-                      
-                        temp+= fileInput.charAt(i);
+                                   p++;
+                                }
+                     
+                        
+                     }while( p<3);
+                 
                         words.add(temp);
                         temp="";
                      
