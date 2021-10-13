@@ -9,9 +9,10 @@ public class myCompiler {
         ArrayList <String> words = new ArrayList();
      String [][] keywords = {
          {"for","for"},
+         {"boolean", "dataType"},
          {"int","dataType"},
          {"float","dataType"},
-         {"String","dataType"},
+         {"String","stringType"},
          {"double","dataType"},
          {"char","dataType"},
          { "class","class"},
@@ -73,6 +74,7 @@ public class myCompiler {
          {
          "!","!"
          },
+         {"=","assign"},
          {"++","inc/dec"},
          {"--","inc/dec"}
      };
@@ -340,7 +342,16 @@ public class myCompiler {
                    
                     
 
-                  } 
+                  } else{
+                        if(!temp.isEmpty())
+                        {
+                                 words.add(temp);
+                    temp="";
+                        }
+                    temp+= fileInput.charAt(i);
+                    words.add(temp);
+                    temp="";
+                        }
                     
                 }
              
@@ -384,7 +395,7 @@ public class myCompiler {
      ArrayList<Token> tokenList = new ArrayList<Token>();
      int lineNo = 1;
      for(String w : words)
-     { System.out.println(w);
+     { 
          if("\n".equals(w))
          {
              lineNo++;
@@ -393,9 +404,9 @@ public class myCompiler {
        {
                String classPart;
            String value =w;
-           for (int i=0;i<keywords.length;i++) {
-             if (w.equals(keywords[i][0])) {
-                   classPart = keywords[i][1];
+           for (int i=0;i<operators.length;i++) {
+             if (w.equals(operators[i][0])) {
+                   classPart = operators[i][1];
                    tokenList.add(new Token(value,classPart,lineNo));
                    break;
              }

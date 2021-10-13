@@ -1,1 +1,5 @@
-"a
+public boolean isIdentifier(String s){
+Pattern p=Pattern.compile("[_a-zA-Z][_a-zA-Z0-9]*");
+Matcher m=p.matcher(s);
+return m.matches();
+};
