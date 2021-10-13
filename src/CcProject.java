@@ -16,7 +16,14 @@ public class CcProject {
 
       String  data =readFile();
       words =   c.breakWords(data);
-     
+        System.out.println("words Size: "+ words.size());
+          for(String s : words)
+       {
+           System.out.println(s);
+       }
+      
+
+      
        ArrayList<Token>  tokens =  c.generateTokens();
               System.out.println("token Size: "+ tokens.size());
        for(Token t : tokens)

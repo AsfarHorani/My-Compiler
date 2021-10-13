@@ -155,8 +155,7 @@ public class myCompiler {
                        //'\a' 'a'
                            if(i>fileInput.length()-1)
                            {
-                                words.add(temp);
-                               temp="";
+                              
                                 break;
                            }
                            else if(fileInput.charAt(i)=='\n')
@@ -164,8 +163,7 @@ public class myCompiler {
                                  words.add(temp);
                                  temp="";
                                  temp+= fileInput.charAt(i);
-                                 words.add(temp);
-                                break;
+                                 break;
                            }
                            else if(fileInput.charAt(i)=='\\' && !occ)
                            {
