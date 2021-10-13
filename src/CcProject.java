@@ -9,13 +9,21 @@ public class CcProject {
 
     public static void main(String[] args) throws IOException {
  
+
         
        ArrayList<String>  words = new ArrayList();
        myCompiler c = new myCompiler();
 
       String  data =readFile();
       words =   c.breakWords(data);
+        System.out.println("words Size: "+ words.size());
+          for(String s : words)
+       {
+           System.out.println(s);
+       }
+      
 
+      
        ArrayList<Token>  tokens =  c.generateTokens();
               System.out.println("token Size: "+ tokens.size());
        for(Token t : tokens)

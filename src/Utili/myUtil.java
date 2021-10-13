@@ -67,7 +67,7 @@ public class myUtil {
              // == ++ -- += -= >= <= && || /= *= !=
               switch(i){
                   case '+':        //a+b a+1 1+1 ;+1   //  ++ +=   +5tigbj +for -for a +b
-                      if(temp.isEmpty()  && (j=='+' || j== '=' || isNumeric(String.valueOf(j)) || Character.isLetter(j) ))
+                      if((temp.isEmpty() )  && (j=='+' || j== '=' || isNumeric(String.valueOf(j)) || Character.isLetter(j) ))
                       {
                           return true;
                       }

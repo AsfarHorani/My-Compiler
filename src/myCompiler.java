@@ -339,33 +339,24 @@ public class myCompiler {
                 
                 if(i<fileInput.length()-1)   //a+   1 2
                 {
-                        if(myUtil.shouldConcatNum(temp,fileInput.charAt(i),fileInput.charAt(i+1)))
-                  {
-                            if(!temp.isEmpty() && temp!=" ")
+                        if(!temp.isEmpty() || temp!=" ")
                     {
                      words.add(temp);
                       temp="";
                       
                     }
                       
-                    if((fileInput.charAt(i)=='+' || fileInput.charAt(i)=='-') && ( Character.isLetter(fileInput.charAt(+1)) || myUtil.isNumeric(String.valueOf(fileInput.charAt(i+1))))) 
-                    {
-                        temp+=fileInput.charAt(i);
-                    i++;
-                    temp+= fileInput.charAt(i);
-                    
-                    }
-                    else{
-                         temp+=fileInput.charAt(i);
-                    i++;
-                    temp+= fileInput.charAt(i);
+                        if(myUtil.shouldConcatNum(temp,fileInput.charAt(i),fileInput.charAt(i+1)))
+                  {
+
+                           temp+=fileInput.charAt(i);
+                           i++;
+                           temp+=fileInput.charAt(i);
+                   
                     words.add(temp);
                     temp="";
-                    }  
-                   
-                   
-                    
-
+                 
+     
                   } else{
                         if(!temp.isEmpty())
                         {
