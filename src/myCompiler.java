@@ -356,7 +356,7 @@ public class myCompiler {
                 
                 if(i<fileInput.length()-1)   //a+   1 2
                 {
-                        if(!temp.isEmpty() || temp!=" ")
+                        if(!temp.isEmpty() && temp!=" ")
                     {
                      words.add(temp);
                       temp="";
