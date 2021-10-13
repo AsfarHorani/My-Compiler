@@ -76,7 +76,12 @@ public class myCompiler {
          },
          {"=","assign"},
          {"++","inc/dec"},
-         {"--","inc/dec"}
+         {"--","inc/dec"},
+          {"-=","opAnd"},
+          {"+=","opAnd"},
+           {"*=","opAnd"},
+           {"/=","opAnd"},
+         
      };
      public String[] punctuators={";",":",",","(",")","{","}","[","]","."};
 
