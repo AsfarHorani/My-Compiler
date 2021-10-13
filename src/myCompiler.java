@@ -137,6 +137,7 @@ public class myCompiler {
                     
                 
                     }
+           
                 else if(fileInput.charAt(i)=='\''){
                       //char conditions
 
@@ -145,11 +146,12 @@ public class myCompiler {
                                words.add(temp);
                                 temp="";
                       }
-                      temp+= fileInput.charAt(i);
-                           i++;
+                          temp+= fileInput.charAt(i);
+                          
                            int p =1;
                            boolean occ = false;
                      do{
+                          i++;
                        //'\a' 'a'
                            if(i>fileInput.length()-1)
                            {
@@ -173,9 +175,14 @@ public class myCompiler {
                               
                     
                            }else{
-                               temp+= fileInput.charAt(i);
-                                   i++;
-                                   p++;
+                               if(fileInput.charAt(i)!='\r')
+                               {
+                                    temp+= fileInput.charAt(i);
+                                    p++;
+                           
+                                   
+                               }
+                              
                                 }
                      
                         
