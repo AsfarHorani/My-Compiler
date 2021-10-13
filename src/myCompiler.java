@@ -54,7 +54,8 @@ public class myCompiler {
         {
              "super",
              "super"
-        }
+        },
+        {"enum","enum"}
   
      };
      public String[][] operators={
@@ -77,10 +78,11 @@ public class myCompiler {
          {"=","assign"},
          {"++","inc/dec"},
          {"--","inc/dec"},
-          {"-=","opAnd"},
-          {"+=","opAnd"},
-           {"*=","opAnd"},
-           {"/=","opAnd"},
+          {"-=","CO"},
+          {"+=","CO"},
+           {"*=","CO"},
+           {"/=","CO"},
+           
          
      };
      public String[] punctuators={";",":",",","(",")","{","}","[","]","."};
@@ -175,7 +177,7 @@ public class myCompiler {
                          if(i>0)  // /   0
                            {
                              char a = fileInput.charAt(i-1);
-                             System.out.print(fileInput.charAt(i-1));
+                             
                              if(fileInput.charAt(i-1)!=' ' && fileInput.charAt(i-1)!='\r')
                              {
                                  
@@ -226,7 +228,7 @@ public class myCompiler {
                           if(i>0)  // /   0
                            {
                              char a = fileInput.charAt(i-1);
-                             System.out.print(fileInput.charAt(i-1));
+                            
                              if(fileInput.charAt(i-1)!=' ' && fileInput.charAt(i-1)!='\r'   )
                              {
                                  
@@ -304,7 +306,7 @@ public class myCompiler {
         }
          
          temp+= fileInput.charAt(i);
-         System.out.println(temp);
+         
          words.add(temp);
               temp="";
        
@@ -414,7 +416,7 @@ public class myCompiler {
  
  public  ArrayList<Token> generateTokens()
  {
-     ArrayList<Token> tokenList = new ArrayList<Token>();
+     ArrayList<Token> tokenList = new ArrayList<>();
      int lineNo = 1;
      for(String w : words)
      { 
@@ -426,13 +428,13 @@ public class myCompiler {
        {
                String classPart;
            String value =w;
-           for (int i=0;i<operators.length;i++) {
-             if (w.equals(operators[i][0])) {
-                   classPart = operators[i][1];
-                   tokenList.add(new Token(value,classPart,lineNo));
-                   break;
+             for (String[] operator : operators) {
+                 if (w.equals(operator[0])) {
+                     classPart = operator[1];
+                     tokenList.add(new Token(value,classPart,lineNo));
+                     break;
+                 }
              }
-         }
            
        }
        else if(isPunctuator(w))
@@ -445,13 +447,13 @@ public class myCompiler {
        {
            String classPart;
            String value =w;
-           for (int i=0;i<keywords.length;i++) {
-             if (w.equals(keywords[i][0])) {
-                  classPart = keywords[i][1];
-                  tokenList.add(new Token(value,classPart,lineNo));
-                   break;
+             for (String[] keyword : keywords) {
+                 if (w.equals(keyword[0])) {
+                     classPart = keyword[1];
+                     tokenList.add(new Token(value,classPart,lineNo));
+                     break;
+                 }
              }
-         }
        }
        else if(isIdentifier(w))
        {
@@ -516,11 +518,11 @@ public boolean isKW(String s){
          return false;
      };
 public boolean isOp(String s){
-     for(int i=0;i<operators.length;i++){
-     if(s.equals(operators[i][0])){
-     return true;
-     }
-     }
+            for (String[] operator : operators) {
+                if (s.equals(operator[0])) {
+                    return true;
+                }
+            }
      return false;
      };
 
