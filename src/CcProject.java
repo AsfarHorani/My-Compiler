@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,19 +16,14 @@ public class CcProject {
 
       String  data =readFile();
       words =   c.breakWords(data);
-      System.out.println("Total number of words: " + words.size()+ "\n");
-      for(String w : words){
-         if(w.contains("\n"))
-          {
-              System.out.println("line change detected ");
-          }
-         else{
-         System.out.println(w);
-         }
-  
-  }
-
-
+      
+      
+       ArrayList<Token>  tokens =  c.generateTokens();
+              System.out.println("token Size: "+ tokens.size());
+       for(Token t : tokens)
+       {
+           System.out.println(t);
+       }
       
     
     }

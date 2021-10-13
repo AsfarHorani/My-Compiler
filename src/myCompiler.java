@@ -1,11 +1,14 @@
 import Utili.myUtil;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 
 public class myCompiler {
-     
+        ArrayList <String> words = new ArrayList();
      String [][] keywords = {
+         {"for","for"},
          {"int","dataType"},
          {"float","dataType"},
          {"String","dataType"},
@@ -51,13 +54,34 @@ public class myCompiler {
              "super",
              "super"
         }
+  
      };
-
+     public String[][] operators={
+         {"+","pm"},
+         {"-","pm"},
+         {"*","mdm"},
+         {"/","mdm"},
+         {"%","mdm"},
+         {"<","RO"},
+         {">","RO"},
+         {"<=","RO"},
+         {">=","RO"},
+         {"==","RO"},
+         {"!=","RO"},
+         {"&&","&&"},
+         {"||","||"},
+         {
+         "!","!"
+         },
+         {"++","inc/dec"},
+         {"--","inc/dec"}
+     };
+     public String[] punctuators={";",":",",","(",")","{","}","[","]","."};
 
     
  public ArrayList <String> breakWords(String fileInput){
         String temp="";
-         ArrayList <String> allChars = new ArrayList();
+
          //"as"
         for(int i=0;i<fileInput.length();i++){
            
@@ -65,7 +89,7 @@ public class myCompiler {
                     //string conditions
                 if(!temp.isEmpty())
                 {
-                     allChars.add(temp);
+                     words.add(temp);
                                temp="";
                 }
                              
@@ -76,28 +100,17 @@ public class myCompiler {
                             
                             if(i>=fileInput.length())
                             {
-                               allChars.add(temp);
+                               words.add(temp);
                                temp="";
                                 break;
                             }
-                            else if(fileInput.charAt(i)=='\r' && fileInput.charAt(i+1)=='\n')
-                            {
-                                
-                                allChars.add(temp);
-                                temp="";
-                                i++;
-                                temp+= fileInput.charAt(i);
-                                allChars.add(temp);
-                                temp="";
-                                break;
-                            }
-                     }while(fileInput.charAt(i)!='"');
+            }while(fileInput.charAt(i)!='"');
                       
                        if( myUtil.ifDoubQuo(fileInput, i)) //end on "
                     {
                        
                         temp+= fileInput.charAt(i);
-                        allChars.add(temp);
+                        words.add(temp);
                         temp="";
                      }
                     
@@ -105,41 +118,35 @@ public class myCompiler {
                     }
                 else if(fileInput.charAt(i)=='\''){
                       //char conditions
-               
-                     do{
-                             if(!temp.isEmpty())
-                {
-                            allChars.add(temp);
-                               temp="";
-                }
-                            
-                            if(i>=fileInput.length())
-                            {
-                               allChars.add(temp);
-                               temp="";
-                                break;
-                            }
-                            else if(fileInput.charAt(i)=='\r' && fileInput.charAt(i+1)=='\n')
-                            {
-                                
-                                allChars.add(temp);
+
+                     if(!temp.isEmpty())
+                      {
+                               words.add(temp);
                                 temp="";
-                                i++;
-                                temp+= fileInput.charAt(i);
-                                allChars.add(temp);
-                                temp="";
-                                break;
-                            }
-                     }while(fileInput.charAt(i)!='\'');
-                      
-                       if( myUtil.ifDoubQuo(fileInput, i)) //end on "
-                    {
-                       
-                        temp+= fileInput.charAt(i);
-                        allChars.add(temp);
-                        temp="";
-                     }
+                      }
+             
+                           temp+= fileInput.charAt(i);
+                           i++;
+                           
+                           if(fileInput.charAt(i)=='\\')
+                           {
+                               temp+= fileInput.charAt(i);
+                               i++;
+                               temp+= fileInput.charAt(i);
+                               i++;
                     
+                           }
+                           else{
+                                   temp+= fileInput.charAt(i);
+                                   i++;
+
+                                   }
+                      
+                        temp+= fileInput.charAt(i);
+                        words.add(temp);
+                        temp="";
+                     
+                
                     }
                 else if(fileInput.charAt(i)=='/')
                 { //comment conditions
@@ -154,7 +161,7 @@ public class myCompiler {
                              {
                                  
                                   temp+= fileInput.charAt(i-1);
-                            allChars.add(temp);
+                            words.add(temp);
                            temp="";
                              }
                            }
@@ -192,7 +199,7 @@ public class myCompiler {
                }
                         };
                       
-                        //allChars.add(temp);
+                        //words.add(temp);
                            temp="";
                        
                     }else if(fileInput.charAt(i)=='/')
@@ -205,7 +212,7 @@ public class myCompiler {
                              {
                                  
                                   temp+= fileInput.charAt(i-1);
-                            allChars.add(temp);
+                            words.add(temp);
                            temp="";
                              }
                            }
@@ -228,7 +235,7 @@ public class myCompiler {
                    
                
                         }
-                         // allChars.add(temp);
+                         // words.add(temp);
                           temp="";
                         
                     }
@@ -246,20 +253,20 @@ public class myCompiler {
             {
          if(!temp.isEmpty())
         {
-              allChars.add(temp);
+              words.add(temp);
               temp="";
          
         }
          i++;
          temp+= fileInput.charAt(i);
-         allChars.add(temp);
+         words.add(temp);
          temp="";
        
             }   
                   
                if(!temp.isEmpty() ){
                     
-                    allChars.add(temp);
+                    words.add(temp);
                     temp="";
                 }
                   
@@ -268,13 +275,13 @@ public class myCompiler {
             {
          if(!temp.isEmpty())
         {
-              allChars.add(temp);
+              words.add(temp);
               temp="";
         }
          
          temp+= fileInput.charAt(i);
          System.out.println(temp);
-         allChars.add(temp);
+         words.add(temp);
               temp="";
        
             }
@@ -289,13 +296,13 @@ public class myCompiler {
                else{
                if(!temp.isEmpty() ){
                      
-                    allChars.add(temp);
+                    words.add(temp);
                     temp="";
                 }
                   
                     temp+= fileInput.charAt(i);
                   
-                    allChars.add(temp);
+                    words.add(temp);
                     temp="";
                }
                 
@@ -310,7 +317,7 @@ public class myCompiler {
                   {
                             if(!temp.isEmpty() && temp!=" ")
                     {
-                     allChars.add(temp);
+                     words.add(temp);
                       temp="";
                       
                     }
@@ -326,7 +333,7 @@ public class myCompiler {
                          temp+=fileInput.charAt(i);
                     i++;
                     temp+= fileInput.charAt(i);
-                    allChars.add(temp);
+                    words.add(temp);
                     temp="";
                     }  
                    
@@ -341,13 +348,13 @@ public class myCompiler {
                   {
                      if(!temp.isEmpty() && temp!=" ")
                     {
-                     allChars.add(temp);
+                     words.add(temp);
                       temp="";
                       
                     }
                      
                     temp+= fileInput.charAt(i);
-                    allChars.add(temp);
+                    words.add(temp);
                     temp="";
 
                             
@@ -364,20 +371,167 @@ public class myCompiler {
         }
         if(!temp.isEmpty())
         {
-              allChars.add(temp);
+              words.add(temp);
               temp="";
         }
        
-      return allChars;  
+      return words;  
     }
       
  
- public  ArrayList<Token> generateTokens(ArrayList<String> words)
+ public  ArrayList<Token> generateTokens()
  {
      ArrayList<Token> tokenList = new ArrayList<Token>();
+     int lineNo = 1;
+     for(String w : words)
+     { System.out.println(w);
+         if("\n".equals(w))
+         {
+             lineNo++;
+         }
+      else if(isOp(w))
+       {
+               String classPart;
+           String value =w;
+           for (int i=0;i<keywords.length;i++) {
+             if (w.equals(keywords[i][0])) {
+                   classPart = keywords[i][1];
+                   tokenList.add(new Token(value,classPart,lineNo));
+                   break;
+             }
+         }
+           
+       }
+       else if(isPunctuator(w))
+       {
+            String classPart=w;
+           String value =w;
+        tokenList.add(new Token(value,classPart,lineNo));
+       }
+       else if(isKW(w))
+       {
+           String classPart;
+           String value =w;
+           for (int i=0;i<keywords.length;i++) {
+             if (w.equals(keywords[i][0])) {
+                  classPart = keywords[i][1];
+                  tokenList.add(new Token(value,classPart,lineNo));
+                   break;
+             }
+         }
+       }
+       else if(isIdentifier(w))
+       {
+           String classPart="id";
+           String value =w;
+           
+         tokenList.add(new Token(value,classPart,lineNo));
+       }
+       else if(isChar(w))
+       {
+                String classPart="char";
+           String value =w;
+           
+         tokenList.add(new Token(value,classPart,lineNo));
+       }
+       else if(isDouble(w))
+       {
+                String classPart="double";
+            String value =w;
+           
+         tokenList.add(new Token(value,classPart,lineNo));
+       }
+       else if(isString(w))
+       {
+                String classPart="String";
+           String value =w;
+           
+         tokenList.add(new Token(value,classPart,lineNo));
+        
+       }
+       else if (isIntconst(w))
+       {
+             String classPart="int";
+           String value =w;
+           
+         tokenList.add(new Token(value,classPart,lineNo));
+           
+       }
+       else{
+         String classPart="Error";
+           String value =w;
+           
+         tokenList.add(new Token(value,classPart,lineNo));
+       }
+     }
      
-      return tokenList;
+  
+     return tokenList;
  }
+ 
+ 
+ 
+
+public boolean isKW(String s){
+         for (int i=0;i<keywords.length;i++) {
+       
+             if (s.equals(keywords[i][0])) {
+        
+                 return true;
+             }
+         }
+         return false;
+     };
+public boolean isOp(String s){
+     for(int i=0;i<operators.length;i++){
+     if(s.equals(operators[i][0])){
+     return true;
+     }
+     }
+     return false;
+     };
+
+
+
+public boolean isPunctuator(String s){
+         for (String punctuator : punctuators) {
+             if (s.equals(punctuator)) {
+                 return true;
+             }
+         }
+return false;
+};  
+
+public boolean isIdentifier(String s){
+Pattern p=Pattern.compile("[_a-zA-Z][_a-zA-Z0-9]*");
+Matcher m=p.matcher(s);
+return m.matches();
+};
+
+public boolean isChar(String s){
+Pattern p=Pattern.compile("'(\\\\[tvrnafb\\\\]|[^\\\\'])'");
+Matcher m=p.matcher(s);
+return m.matches();
+};
+
+public boolean isDouble(String s){
+Pattern p=Pattern.compile("^[+-]?(0|([1-9][0-9]*))(\\.[0-9]+)?$");
+Matcher m=p.matcher(s);
+return m.matches();
+};
+
+public boolean isString(String s){
+Pattern p=Pattern.compile("\".*?\"");
+Matcher m=p.matcher(s);
+return m.matches();
+};
+
+public boolean isIntconst(String s){
+Pattern p=Pattern.compile("[+-]?[0-9]+");
+Matcher m=p.matcher(s);
+return m.matches();
+};
+
  
 }
 
