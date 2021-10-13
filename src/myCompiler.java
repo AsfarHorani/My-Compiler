@@ -106,6 +106,18 @@ public class myCompiler {
                                temp="";
                                 break;
                             }
+                               else if(fileInput.charAt(i)=='\r' && fileInput.charAt(i+1)=='\n')
+                            {
+                                
+                                words.add(temp);
+                                temp="";
+                                i++;
+                                temp+= fileInput.charAt(i);
+                                words.add(temp);
+                                temp="";
+                                break;
+                            }
+                            
             }while(fileInput.charAt(i)!='"');
                       
                        if( myUtil.ifDoubQuo(fileInput, i)) //end on "
@@ -150,7 +162,7 @@ public class myCompiler {
                      
                 
                     }
-                else if(fileInput.charAt(i)=='/')
+                else if(fileInput.charAt(i)=='/' && i!=fileInput.length()-1)
                 { //comment conditions
                 
                     if(fileInput.charAt(i+1)=='*')
@@ -159,7 +171,7 @@ public class myCompiler {
                            {
                              char a = fileInput.charAt(i-1);
                              System.out.print(fileInput.charAt(i-1));
-                             if(fileInput.charAt(i-1)!=' ' && fileInput.charAt(i-1)!='\r'   )
+                             if(fileInput.charAt(i-1)!=' ' && fileInput.charAt(i-1)!='\r')
                              {
                                  
                                   temp+= fileInput.charAt(i-1);
@@ -204,7 +216,7 @@ public class myCompiler {
                         //words.add(temp);
                            temp="";
                        
-                    }else if(fileInput.charAt(i)=='/')
+                    }else if(fileInput.charAt(i+1)=='/')
                     {
                           if(i>0)  // /   0
                            {
@@ -251,7 +263,10 @@ public class myCompiler {
         else{
             //general
               if(fileInput.charAt(i)=='\r' || fileInput.charAt(i)==' '){
-               if(fileInput.charAt(i+1)=='\n')
+              
+                  if(i+1>fileInput.length())
+                  {
+                 if(fileInput.charAt(i+1)=='\n')
             {
          if(!temp.isEmpty())
         {
@@ -264,7 +279,9 @@ public class myCompiler {
          words.add(temp);
          temp="";
        
-            }   
+            }
+                  }
+       
                   
                if(!temp.isEmpty() ){
                     

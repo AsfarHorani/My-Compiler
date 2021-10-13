@@ -22,7 +22,7 @@ public class CcProject {
            System.out.println(s);
        }
       
-      
+
       
        ArrayList<Token>  tokens =  c.generateTokens();
               System.out.println("token Size: "+ tokens.size());
