@@ -1,5 +1,6 @@
 import Utili.myUtil;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,6 +114,13 @@ public class myCompiler {
                                temp="";
                                 break;
                             }
+                            else if(fileInput.charAt(i)=='\\' && fileInput.charAt(i+1)=='\"')
+                            {
+                                temp+= fileInput.charAt(i);
+                                i++;
+                                temp+= fileInput.charAt(i);
+                                i++;
+                            }
                                else if(fileInput.charAt(i)=='\r' && fileInput.charAt(i+1)=='\n')
                             {
                                 
@@ -168,7 +176,7 @@ public class myCompiler {
                            else if(fileInput.charAt(i)=='\\' && !occ)
                            {
                                temp+= fileInput.charAt(i);
-                               i++;
+                               
                                occ=true;
                               
                     
@@ -249,14 +257,12 @@ public class myCompiler {
                     {
                           if(i>0)  // /   0
                            {
-                             char a = fileInput.charAt(i-1);
-                            
+                          
                              if(fileInput.charAt(i-1)!=' ' && fileInput.charAt(i-1)!='\r'   )
                              {
-                                 
-                                  temp+= fileInput.charAt(i-1);
-                            words.add(temp);
-                           temp="";
+                                
+                                  words.add(temp);
+                                  temp="";
                              }
                            }
                        
@@ -271,14 +277,17 @@ public class myCompiler {
                   {
                       if(fileInput.charAt(i)=='\n')
                     { 
-                         
+                         temp ="";
+                         temp+=fileInput.charAt(i);
+                         words.add(temp);
+                         temp ="";
                          break;
                     }
                   }
                    
                
                         }
-                         // words.add(temp);
+                         
                           temp="";
                         
                     }
@@ -341,6 +350,16 @@ public class myCompiler {
                {
                      temp+= fileInput.charAt(i);
                }
+               else if(fileInput.charAt(i)=='.' && Character.isDigit(fileInput.charAt(i+1)))
+               {
+                 if(!temp.isEmpty() ){
+                     
+                    words.add(temp);
+                    temp="";
+                }
+                  
+                    temp+= fileInput.charAt(i);
+               }
                else{
                if(!temp.isEmpty() ){
                      
@@ -370,14 +389,25 @@ public class myCompiler {
                       
                         if(myUtil.shouldConcatNum(temp,fileInput.charAt(i),fileInput.charAt(i+1)))
                   {
-
+                      //a+b +a ;+a +a13123 a++1
+                      if((fileInput.charAt(i)=='+' || fileInput.charAt(i)=='-') && (Character.isLetter(fileInput.charAt(i+1)) || Character.isDigit(fileInput.charAt(i+1))))
+                      {
                            temp+=fileInput.charAt(i);
                            i++;
                            temp+=fileInput.charAt(i);
-                   
-                    words.add(temp);
-                    temp="";
+                           
+                      }
+                      else
+                      {
+                        temp+=fileInput.charAt(i);
+                        i++;
+                        temp+=fileInput.charAt(i);
+                        words.add(temp);
+                        temp="";
                  
+                          
+                      }
+                  
      
                   } else{
                         if(!temp.isEmpty())
@@ -431,87 +461,94 @@ public class myCompiler {
  {
      ArrayList<Token> tokenList = new ArrayList<>();
      int lineNo = 1;
-     for(String w : words)
-     { 
-         if("\n".equals(w))
-         {
-             lineNo++;
-         }
-      else if(isOp(w))
-       {
-               String classPart;
-           String value =w;
-             for (String[] operator : operators) {
-                 if (w.equals(operator[0])) {
-                     classPart = operator[1];
-                     tokenList.add(new Token(value,classPart,lineNo));
-                     break;
-                 }
-             }
-           
-       }
-       else if(isPunctuator(w))
-       {
-            String classPart=w;
-           String value =w;
-        tokenList.add(new Token(value,classPart,lineNo));
-       }
-       else if(isKW(w))
-       {
-           String classPart;
-           String value =w;
-             for (String[] keyword : keywords) {
-                 if (w.equals(keyword[0])) {
-                     classPart = keyword[1];
-                     tokenList.add(new Token(value,classPart,lineNo));
-                     break;
-                 }
-             }
-       }
-       else if(isIdentifier(w))
-       {
-           String classPart="id";
-           String value =w;
-           
-         tokenList.add(new Token(value,classPart,lineNo));
-       }
-       else if(isChar(w))
-       {
-                String classPart="char";
-           String value =w;
-           
-         tokenList.add(new Token(value,classPart,lineNo));
-       }
-       else if(isDouble(w))
-       {
-                String classPart="double";
-            String value =w;
-           
-         tokenList.add(new Token(value,classPart,lineNo));
-       }
-       else if(isString(w))
-       {
-                String classPart="String";
-           String value =w;
-           
-         tokenList.add(new Token(value,classPart,lineNo));
-        
-       }
-       else if (isIntconst(w))
-       {
-             String classPart="int";
-           String value =w;
-           
-         tokenList.add(new Token(value,classPart,lineNo));
-           
-       }
-       else{
-         String classPart="Error";
-           String value =w;
-           
-         tokenList.add(new Token(value,classPart,lineNo));
-       }
-     }
+            for (String w : words) {
+                if("\n".equals(w))
+                {
+                    lineNo++;
+                }
+                else if(isOp(w))
+                {
+                    String classPart;
+                    String value =w;
+                    for (String[] operator : operators) {
+                        if (w.equals(operator[0])) {
+                            classPart = operator[1];
+                            tokenList.add(new Token(value,classPart,lineNo));
+                            break;
+                        }
+                    }
+                    
+                }
+                else if(isPunctuator(w))
+                {
+                    String classPart=w;
+                    String value =w;
+                    tokenList.add(new Token(value,classPart,lineNo));
+                }
+                else if(isKW(w))
+                {
+                    String classPart;
+                    String value =w;
+                    for (String[] keyword : keywords) {
+                        if (w.equals(keyword[0])) {
+                            classPart = keyword[1];
+                            tokenList.add(new Token(value,classPart,lineNo));
+                            break;
+                        }
+                    }
+                }
+                else if(isIdentifier(w))
+                {
+                    String classPart="id";
+                    String value =w;
+                    
+                    tokenList.add(new Token(value,classPart,lineNo));
+                }
+                else if(isChar(w))
+                {
+                    String valuePart="";
+                    String classPart="char";
+                    String value =w;
+                    for(int x = 1; x<value.length()-1; x++)
+                    {
+                        valuePart+= w.charAt(x);
+                    }
+                    tokenList.add(new Token(valuePart,classPart,lineNo));
+                }
+                
+                else if(isString(w))
+                {
+                    String valuePart="";
+                    String classPart="String";
+                    String value =w;
+                    for(int x = 1; x<value.length()-1; x++)
+                    {
+                        valuePart+= w.charAt(x);
+                    }
+                    tokenList.add(new Token(valuePart,classPart,lineNo));
+                    
+                }
+                else if (isIntconst(w))
+                {
+                    String classPart="int";
+                    String value =w;
+                    
+                    tokenList.add(new Token(value,classPart,lineNo));
+                    
+                }    else if(isDouble(w))
+                {
+                    String classPart="double";
+                    String value =w;
+                    
+                    tokenList.add(new Token(value,classPart,lineNo));
+                }
+                else{
+                    String classPart="Error";
+                    String value =w;
+                    
+                    tokenList.add(new Token(value,classPart,lineNo));
+                }
+            }
      
   
      return tokenList;
