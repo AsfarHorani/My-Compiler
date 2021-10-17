@@ -92,14 +92,14 @@ public class myUtil {
               switch(i){
                   case '+':        //a+b a+1 1+1 ;+1   //  ++ +=   +5tigbj +for -for a +b  
                       //a+b return -1
-                      if((temp.isEmpty() || !isNumeric(temp) || isAlpha(temp) || isAlphaNumeric(temp) )  && (j=='+' || j== '=' ||  Character.isDigit(j) ))
+                      if((temp.isEmpty() || !(isNumeric(temp) || isAlpha(temp) || isAlphaNumeric(temp) ) )  && (j=='+' || j== '=' ||  Character.isDigit(j) ))
                       {
                           return true;
                       }
                       
                   break;
                        case '-':        //a+b a+1 1+1 ;+1   //  ++ +=   +5tigbj +for -for a +b
-                      if((temp.isEmpty() || !isNumeric(temp) || !isAlpha(temp) || !isAlphaNumeric(temp) ) && (j=='-' || j== '=' || Character.isDigit(j) ))
+                      if((temp.isEmpty() || !(isNumeric(temp) || isAlpha(temp) || isAlphaNumeric(temp) )) && (j=='-' || j== '=' || Character.isDigit(j) ))
                       {
                           return true;
                       }
