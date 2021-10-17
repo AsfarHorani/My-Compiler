@@ -207,8 +207,7 @@ public class myCompiler {
                          
                              if(!temp.isEmpty())
                              {
-                                 
-                                  temp+= fileInput.charAt(i-1);
+                                
                             words.add(temp);
                            temp="";
                              }
@@ -395,17 +394,18 @@ public class myCompiler {
                 
                 if(i<fileInput.length()-1)   //a+   1 2
                 {
-                        if(!temp.isEmpty() && temp!=" ")
+                    
+                      
+                        if(myUtil.shouldConcatNum(temp,fileInput.charAt(i),fileInput.charAt(i+1)))
+                  {
+                          if(!temp.isEmpty() && temp!=" ")
                     {
                      words.add(temp);
                       temp="";
                       
                     }
-                      
-                        if(myUtil.shouldConcatNum(temp,fileInput.charAt(i),fileInput.charAt(i+1)))
-                  {
                       //a+b +a ;+a +a13123 a++1
-                      if((fileInput.charAt(i)=='+' || fileInput.charAt(i)=='-') && (Character.isLetter(fileInput.charAt(i+1)) || Character.isDigit(fileInput.charAt(i+1))))
+                      if((fileInput.charAt(i)=='+' || fileInput.charAt(i)=='-') &&  Character.isDigit(fileInput.charAt(i+1)))
                       {
                            temp+=fileInput.charAt(i);
                            i++;
