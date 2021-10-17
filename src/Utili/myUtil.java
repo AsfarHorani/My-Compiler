@@ -4,18 +4,7 @@ package Utili;
 
 public class myUtil {
     
-    public static boolean isAlpha(String name) {
-    char[] chars = name.toCharArray();
-
-    for (char c : chars) {
-        if(!Character.isLetter(c)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-    
+   
       public static Boolean isAlphaNumeric(String s)
     {
         for (int i = 0; i < s.length(); i++)
@@ -92,14 +81,14 @@ public class myUtil {
               switch(i){
                   case '+':        //a+b a+1 1+1 ;+1   //  ++ +=   +5tigbj +for -for a +b  
                       //a+b return -1
-                      if((temp.isEmpty() || !(isNumeric(temp) || isAlpha(temp) || isAlphaNumeric(temp) ) )  && (j=='+' || j== '=' ||  Character.isDigit(j) ))
+                      if((temp.isEmpty() || !isAlphaNumeric(temp) )  && (j=='+' || j== '=' ||  Character.isDigit(j) ))
                       {
                           return true;
                       }
                       
                   break;
                        case '-':        //a+b a+1 1+1 ;+1   //  ++ +=   +5tigbj +for -for a +b
-                      if((temp.isEmpty() || !(isNumeric(temp) || isAlpha(temp) || isAlphaNumeric(temp) )) && (j=='-' || j== '=' || Character.isDigit(j) ))
+                      if((temp.isEmpty() || !isAlphaNumeric(temp) ) && (j=='-' || j== '=' || Character.isDigit(j) ))
                       {
                           return true;
                       }
