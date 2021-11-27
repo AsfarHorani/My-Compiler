@@ -1,1 +1,6 @@
-public
+public class CcProject {
+
+    public static void main() {
+
+}
+}

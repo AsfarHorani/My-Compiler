@@ -25,6 +25,8 @@ public class CcProject {
                   System.out.println(t);
         });
       
+       tokens.add(new Token("$","$",-1));
+       System.out.println(MyCfg.parse(tokens));
     
     }
   

@@ -3,17 +3,17 @@ import java.util.ArrayList;
 
 public class MyCfg {
 
-    ArrayList<Token> tokens = new ArrayList();
+    static ArrayList<Token> tokens = new ArrayList();
     static int i = 0;
 
-    boolean MyCfg(ArrayList<Token> tokens) {
-        this.tokens = tokens;
+    public static boolean parse(ArrayList<Token> tok) {
+        tokens = tok;
         return s();
     }
 
-    private boolean s() {
+    private static boolean s() {
         if (defs()) {
-            if (tokens.get(i).classPart.equals("public")) {
+            if (tokens.get(i).value.equals("public")) {
                 i++;
                 if (tokens.get(i).classPart.equals("class")) {
                     i++;
@@ -65,7 +65,7 @@ public class MyCfg {
         return false;
     }
 
-    private boolean defs() {
+    private static boolean defs() {
         if (class_defs()) {
             if (defs()) {
                 return true;
@@ -75,7 +75,7 @@ public class MyCfg {
         return true;
     }
 
-    private boolean inht() {
+    private static boolean inht() {
 //        if(tokens.get(i).classPart.equals("extends"))
 //        {
 //           i++;
@@ -85,20 +85,20 @@ public class MyCfg {
 //        
 //        }
 //        
-        return false;
+        return true;
     }
 
-    private boolean mst() {
+    private static boolean mst() {
         //have to complete
-        return false;
+        return true;
     }
 
-    private boolean c_body() {
+    private static boolean c_body() {
         //have to conplete
-        return false;
+        return true;
     }
 
-    private boolean class_defs() {
+    private static boolean class_defs() {
         if (abs_final()) {
             if (tokens.get(i).classPart.equals("class")) {
                 i++;
@@ -122,7 +122,7 @@ public class MyCfg {
         return false;
     }
 
-    private boolean abs_final() {
+    private static boolean abs_final() {
 
         if (tokens.get(i).classPart.equals("abstract") || tokens.get(i).classPart.equals("abstract")) {
             i++;
