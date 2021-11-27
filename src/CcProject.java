@@ -16,7 +16,7 @@ public class CcProject {
 
       String  data =readFile();
       words =   c.breakWords(data);
-     
+      
        System.out.println(data);
       
        ArrayList<Token>  tokens =  c.generateTokens();
