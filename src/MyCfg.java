@@ -11,7 +11,9 @@ public class MyCfg {
         return s();
     }
 
+ 
     private static boolean s() {
+
         if (defs()) {
             if (tokens.get(i).value.equals("public")) {
                 i++;
