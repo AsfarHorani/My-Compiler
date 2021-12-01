@@ -14,7 +14,7 @@ public class myCompiler {
          {"extends", "extends"},
         {"boolean", "dataType"},
         {"int", "dataType"},
-        {"float", "dataType"},
+       
         {"String", "stringType"},
         {"double", "dataType"},
         {"char", "dataType"},
@@ -78,8 +78,8 @@ public class myCompiler {
             "!", "!"
         },
         {"=", "assign"},
-        {"++", "inc/dec"},
-        {"--", "inc/dec"},
+        {"++", "inc-dec"},
+        {"--", "inc-dec"},
         {"-=", "CO"},
         {"+=", "CO"},
         {"*=", "CO"},
@@ -438,7 +438,7 @@ public class myCompiler {
                 tokenList.add(new Token(valuePart, classPart, lineNo));
             } else if (isMyString(w)) {
                 String valuePart = "";
-                String classPart = "String";
+                String classPart = "string";
                 String value = w;
                 for (int x = 1; x < value.length() - 1; x++) {
                     valuePart += w.charAt(x);
