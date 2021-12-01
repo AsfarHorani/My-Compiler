@@ -1295,6 +1295,63 @@ public class MyCfg {
     }
 
     private static boolean sst() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tokens.get(i).classPart.equals("dataType")) {
+            i++;
+            if (tokens.get(i).classPart.equals("id")) {
+                i++;
+
+                return sst1();
+            }
+            return true;
+        } else if (tokens.get(i).classPart.equals("inc-dec")) {
+            if (inc_dec_st()) {
+
+                return true;
+            }
+        } else if (tokens.get(i).classPart.equals("while")) {
+
+            return while_st();
+        } else if (tokens.get(i).classPart.equals("if")) {
+
+            return if_else();
+        } else if (tokens.get(i).classPart.equals("return")) {
+
+            return returnn();
+        } else if (tokens.get(i).classPart.equals("for")) {
+
+            return forr();
+        }
+
+        return false;
+    }
+
+    private static boolean while_st() {
+        if (tokens.get(i).classPart.equals("while")) {
+            i++;
+            if (tokens.get(i).classPart.equals("(")) {
+                i++;
+                if (oe()) {
+                    if (tokens.get(i).classPart.equals(")")) {
+                        i++;
+
+                        return bodyy();
+                    }
+                }
+
+            }
+
+        }
+
+        return false;
+    }
+
+    private static boolean sst1() {
+        if (tokens.get(i).classPart.equals(";") || tokens.get(i).classPart.equals("=") || tokens.get(i).classPart.equals("'") || tokens.get(i).classPart.equals("'")) {
+            if (init()) {
+                return list();
+            }
+
+        }
+        return false;
     }
 }
