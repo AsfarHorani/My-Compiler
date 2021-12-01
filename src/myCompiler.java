@@ -77,7 +77,7 @@ public class myCompiler {
         {
             "!", "!"
         },
-        {"=", "assign"},
+        {"=", "="},
         {"++", "inc-dec"},
         {"--", "inc-dec"},
         {"-=", "CO"},
@@ -438,7 +438,7 @@ public class myCompiler {
                 tokenList.add(new Token(valuePart, classPart, lineNo));
             } else if (isMyString(w)) {
                 String valuePart = "";
-                String classPart = "string";
+                String classPart = "stri ng";
                 String value = w;
                 for (int x = 1; x < value.length() - 1; x++) {
                     valuePart += w.charAt(x);

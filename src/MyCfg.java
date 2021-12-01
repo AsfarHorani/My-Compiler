@@ -111,7 +111,7 @@ public class MyCfg {
 
     private static boolean abs_final() {
 
-        if (tokens.get(i).classPart.equals("abstract") || tokens.get(i).classPart.equals("abstract")) {
+        if (tokens.get(i).classPart.equals("abstract") || tokens.get(i).classPart.equals("final")) {
             i++;
             return true;
         } else if (tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("class")) {
@@ -140,7 +140,7 @@ public class MyCfg {
 
     private static boolean mst() {
         //have to complete
-        return true;
+        return false;
     }
 
     private static boolean c_body() {
@@ -676,7 +676,7 @@ public class MyCfg {
             if (th()) {
                 if (tokens.get(i).classPart.equals("id")) {
                     i++;
-                    return opt();
+                    return ref();
 
                 }
             } else if (tokens.get(i).classPart.equals("string") || tokens.get(i).classPart.equals("char") || tokens.get(i).classPart.equals("double") || tokens.get(i).classPart.equals("int")) {
@@ -703,7 +703,7 @@ public class MyCfg {
                     if (th()) {
                         if (tokens.get(i).classPart.equals("id")) {
                             i++;
-                            return opt();
+                            return ref();
                         }
                     }
                 }
@@ -735,29 +735,286 @@ public class MyCfg {
 
         }
     }
+//
+//    private static boolean opt() {
+//        if (tokens.get(i).classPart.equals(".")
+//                || tokens.get(i).classPart.equals("[")
+//                || tokens.get(i).classPart.equals("(")
+//                || tokens.get(i).classPart.equals("=")
+//                || tokens.get(i).classPart.equals(";")
+//                || tokens.get(i).classPart.equals("CO") || tokens.get(i).classPart.equals("mdm") || tokens.get(i).classPart.equals("pm")) {
+//            return ref();
+//
+//        } else if (tokens.get(i).classPart.equals("(")) {
+//            i++;
+//            if (args()) {
+//                if (tokens.get(i).classPart.equals(")") || tokens.get(i).classPart.equals("=") || tokens.get(i).classPart.equals(";")) {
+//                    i++;
+//                    return x();
+//                }
+//            }
+    //  } else if (tokens.get(i).classPart.equals(";") || tokens.get(i).classPart.equals("=") || tokens.get(i).classPart.equals("CO") || tokens.get(i).classPart.equals("mdm") || tokens.get(i).classPart.equals("pm")) {
+//            return true;
+//        }
+//        return false;
+//    }
 
-    private static boolean opt() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static boolean ref() {
+        if (tokens.get(i).classPart.equals(".")) {
+            i++;
+            if (tokens.get(i).classPart.equals("id")) {
+                i++;
+                return ref();
+            }
+        } else if (tokens.get(i).classPart.equals("[")) {
+            i++;
+            if (tokens.get(i).classPart.equals("id") || tokens.get(i).classPart.equals("int")) {
+                i++;
+                if (tokens.get(i).classPart.equals("]")) {
+                    i++;
+                    return ref();
+                }
+            }
+        } else if (tokens.get(i).classPart.equals("(")) {
+            i++;
+            if (args()) {
+                return x();
+            }
+
+        } else if (tokens.get(i).classPart.equals("RO") || tokens.get(i).classPart.equals(";") || tokens.get(i).classPart.equals("=") || tokens.get(i).classPart.equals("CO") || tokens.get(i).classPart.equals("mdm") || tokens.get(i).classPart.equals("pm")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean x() {
+        if (tokens.get(i).classPart.equals(".")) {
+            i++;
+            if (tokens.get(i).classPart.equals("id")) {
+                i++;
+                return ref();
+            }
+        } else if (tokens.get(i).classPart.equals("[")) {
+            i++;
+            if (tokens.get(i).classPart.equals("id") || tokens.get(i).classPart.equals("int")) {
+                i++;
+                if (tokens.get(i).classPart.equals("]")) {
+                    i++;
+                    return ref();
+                }
+            }
+        } else if (tokens.get(i).classPart.equals("RO") || tokens.get(i).classPart.equals(";") || tokens.get(i).classPart.equals("=") || tokens.get(i).classPart.equals("CO") || tokens.get(i).classPart.equals("mdm") || tokens.get(i).classPart.equals("pm")) {
+            return true;
+        }
+
+        return false;
     }
 
     private static boolean cnst() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tokens.get(i).classPart.equals("string") || tokens.get(i).classPart.equals("int") || tokens.get(i).classPart.equals("char") || tokens.get(i).classPart.equals("double")) {
+            i++;
+            return true;
+        }
+        return false;
     }
 
     private static boolean inc_dec() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("inc-dec")) {
+            i++;
+            return true;
+        }
+        return false;
     }
 
     private static boolean init() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tokens.get(i).classPart.equals("=")) {
+            i++;
+            return oe();
+
+        } else if (tokens.get(i).classPart.equals(";") || tokens.get(i).classPart.equals(",")) {
+            return true;
+        }
+        return false;
     }
 
     private static boolean list() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tokens.get(i).classPart.equals(";")) {
+            i++;
+            return true;
+        } else if (tokens.get(i).classPart.equals(",")) {
+            i++;
+            if (tokens.get(i).classPart.equals("id")) {
+                i++;
+                if (init()) {
+                    return list();
+                }
+            }
+        }
+        return false;
     }
 
     private static boolean val() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tokens.get(i).classPart.equals("=")) {
+            i++;
+            return arr_dec();
+        }
+        return false;
+    }
+
+    private static boolean arr_dec() {
+        if (tokens.get(i).classPart.equals("new")) {
+            i++;
+            if (tokens.get(i).classPart.equals("dataType")) {
+                i++;
+                if (tokens.get(i).classPart.equals("[")) {
+                    i++;
+                    if (oe()) {
+                        if (tokens.get(i).classPart.equals("]")) {
+                            i++;
+                            return arr_dec4();
+                        }
+                    }
+                }
+            }
+        } else if (tokens.get(i).classPart.equals("{")) {
+            i++;
+            if (arr1()) {
+                if (tokens.get(i).classPart.equals("}")) {
+                    i++;
+                    return arr2();
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean arr_dec4() {
+        if (tokens.get(i).classPart.equals("[")) {
+            i++;
+            if (oe()) {
+                if (tokens.get(i).classPart.equals("]")) {
+                    i++;
+                    return arr_dec4();
+                }
+            }
+        } else if (tokens.get(i).classPart.equals(";")) {
+
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean arr1() {
+        if (tokens.get(i).classPart.equals("this")
+                || tokens.get(i).classPart.equals("super")
+                || tokens.get(i).classPart.equals("id")
+                || tokens.get(i).classPart.equals("string")
+                || tokens.get(i).classPart.equals("char")
+                || tokens.get(i).classPart.equals("int")
+                || tokens.get(i).classPart.equals("double")
+                || tokens.get(i).classPart.equals("(")
+                || tokens.get(i).classPart.equals("!")
+                || tokens.get(i).classPart.equals("inc-dec")) {
+            return args();
+        } else if (tokens.get(i).classPart.equals("{")) {
+            i++;
+            if (args()) {
+                if (tokens.get(i).classPart.equals("}")) {
+                    i++;
+                    return arr2();
+                }
+            }
+        } else if (tokens.get(i).classPart.equals("}")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean arr2() {
+        if (tokens.get(i).classPart.equals(",")) {
+            i++;
+            return arr3();
+        } else if (tokens.get(i).classPart.equals(";,}")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean arr3() {
+        if (tokens.get(i).classPart.equals("{")) {
+            i++;
+            if (args()) {
+                if (tokens.get(i).classPart.equals("}")) {
+                    i++;
+                    return arr2();
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean returnn() {
+        if (tokens.get(i).classPart.equals("return")) {
+            i++;
+            return return1();
+        }
+        return false;
+    }
+
+    private static boolean return1() {
+        if (tokens.get(i).classPart.equals("this")
+                || tokens.get(i).classPart.equals("super")
+                || tokens.get(i).classPart.equals("id")
+                || tokens.get(i).classPart.equals("string")
+                || tokens.get(i).classPart.equals("char")
+                || tokens.get(i).classPart.equals("int")
+                || tokens.get(i).classPart.equals("double")
+                || tokens.get(i).classPart.equals("(")
+                || tokens.get(i).classPart.equals("!")
+                || tokens.get(i).classPart.equals("int-dec")) {
+            if (oe()) {
+                if (tokens.get(i).classPart.equals(";")) {
+                    i++;
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+    
+    private static boolean obj_dec(){
+        if(tokens.get(i).classPart.equals("id")){
+        i++;
+         if(tokens.get(i).classPart.equals("id")){
+        i++;
+         if(tokens.get(i).classPart.equals("=")){
+        i++;
+         if(tokens.get(i).classPart.equals("new")){
+        i++;
+         if(tokens.get(i).classPart.equals("id")){
+        i++;
+         if(tokens.get(i).classPart.equals("(")){
+        i++;
+        if(args()){
+               if(tokens.get(i).classPart.equals(")")){
+        i++;
+        return true;
+        }
+        }
+        }
+        
+        }
+        
+        }
+        
+        }
+        
+        }
+        
+        }
+        
+    return false;
     }
 
 }
