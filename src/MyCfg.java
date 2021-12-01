@@ -138,11 +138,6 @@ public class MyCfg {
         return false;
     }
 
-    private static boolean mst() {
-        //have to complete
-        return false;
-    }
-
     private static boolean c_body() {
         //have to conplete
         if (tokens.get(i).value.equals("public") || tokens.get(i).value.equals("private")) {
@@ -451,7 +446,17 @@ public class MyCfg {
     }
 
     private static boolean arr() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tokens.get(i).classPart.equals("[")) {
+            i++;
+            if (tokens.get(i).classPart.equals("]")) {
+                i++;
+                return arr();
+            }
+        } else if (tokens.get(i).classPart.equals("=")) {
+            return true;
+
+        }
+        return false;
     }
 
     private static boolean args() {
@@ -982,39 +987,314 @@ public class MyCfg {
         }
         return false;
     }
-    
-    private static boolean obj_dec(){
-        if(tokens.get(i).classPart.equals("id")){
-        i++;
-         if(tokens.get(i).classPart.equals("id")){
-        i++;
-         if(tokens.get(i).classPart.equals("=")){
-        i++;
-         if(tokens.get(i).classPart.equals("new")){
-        i++;
-         if(tokens.get(i).classPart.equals("id")){
-        i++;
-         if(tokens.get(i).classPart.equals("(")){
-        i++;
-        if(args()){
-               if(tokens.get(i).classPart.equals(")")){
-        i++;
-        return true;
+
+    private static boolean obj_dec() {
+        if (tokens.get(i).classPart.equals("id")) {
+            i++;
+            if (tokens.get(i).classPart.equals("id")) {
+                i++;
+                if (tokens.get(i).classPart.equals("=")) {
+                    i++;
+                    if (tokens.get(i).classPart.equals("new")) {
+                        i++;
+                        if (tokens.get(i).classPart.equals("id")) {
+                            i++;
+                            if (tokens.get(i).classPart.equals("(")) {
+                                i++;
+                                if (args()) {
+                                    if (tokens.get(i).classPart.equals(")")) {
+                                        i++;
+                                        return true;
+                                    }
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
-        }
-        }
-        
-        }
-        
-        }
-        
-        }
-        
-        }
-        
-        }
-        
-    return false;
+
+        return false;
     }
 
+    private static boolean multi_arr() {
+        if (tokens.get(i).classPart.equals("dataType")
+                || tokens.get(i).classPart.equals("public")
+                || tokens.get(i).classPart.equals("private")
+                || tokens.get(i).classPart.equals("final")) {
+            if (finall()) {
+                if (tokens.get(i).classPart.equals("dataType")) {
+                    i++;
+                    if (tokens.get(i).classPart.equals("id")) {
+                        i++;
+                        if (tokens.get(i).classPart.equals("[")) {
+                            i++;
+                            if (tokens.get(i).classPart.equals("]")) {
+                                i++;
+                                if (arr()) {
+                                    if (val()) {
+                                        if (tokens.get(i).classPart.equals(";")) {
+                                            i++;
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        return false;
+    }
+
+    private static boolean finall() {
+        if (tokens.get(i).classPart.equals("final")) {
+            i++;
+            return true;
+        } else if (tokens.get(i).classPart.equals("dataType")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean dec() {
+        if (tokens.get(i).classPart.equals("public")
+                || tokens.get(i).classPart.equals("private")
+                || tokens.get(i).classPart.equals("final")
+                || tokens.get(i).classPart.equals("dataType")) {
+            i++;
+            if (acess_mod()) {
+                if (finall()) {
+                    if (tokens.get(i).classPart.equals("dataType")) {
+                        i++;
+                        if (tokens.get(i).classPart.equals("id")) {
+                            i++;
+                            if (init()) {
+                                return list();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean acess_mod() {
+        if (tokens.get(i).classPart.equals("public") || tokens.get(i).classPart.equals("private")) {
+            i++;
+            return true;
+        } else if (tokens.get(i).classPart.equals("abstract") || tokens.get(i).classPart.equals("class") || tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("final")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean if_else() {
+
+        if (tokens.get(i).classPart.equals("if")) {
+            i++;
+            if (tokens.get(i).classPart.equals("(")) {
+                i++;
+                if (oe()) {
+                    if (tokens.get(i).classPart.equals(")")) {
+                        i++;
+                        if (bodyy()) {
+                        }
+                        return elsee();
+                    }
+                }
+
+            }
+
+        }
+        return false;
+    }
+
+    private static boolean mst() {
+        if (tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("while") || tokens.get(i).classPart.equals("if") || tokens.get(i).classPart.equals("return") || tokens.get(i).classPart.equals("for")) {
+            if (sst()) {
+                return mst();
+
+            } else if (tokens.get(i).classPart.equals("}")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean bodyy() {
+        if (tokens.get(i).classPart.equals(";")) {
+            i++;
+            return true;
+        } else if (tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("while") || tokens.get(i).classPart.equals("if") || tokens.get(i).classPart.equals("return") || tokens.get(i).classPart.equals("for")) {
+            return sst();
+        } else if (tokens.get(i).classPart.equals("}") || tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("while") || tokens.get(i).classPart.equals("if") || tokens.get(i).classPart.equals("return") || tokens.get(i).classPart.equals("for")) {
+            if (tokens.get(i).classPart.equals("{")) {
+                i++;
+                if (mst()) {
+                    if (tokens.get(i).classPart.equals("}")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean elsee() {
+        if (tokens.get(i).classPart.equals("else")) {
+            i++;
+            return bodyy();
+
+        }
+        return false;
+    }
+
+    private static boolean do_while() {
+        if (tokens.get(i).classPart.equals("do")) {
+            i++;
+            if (tokens.get(i).classPart.equals("{")) {
+                i++;
+                if (mst()) {
+                    if (tokens.get(i).classPart.equals("}")) {
+                        i++;
+                        if (tokens.get(i).classPart.equals("while")) {
+                            i++;
+                            if (tokens.get(i).classPart.equals("(")) {
+                                i++;
+                                if (oe()) {
+                                    if (tokens.get(i).classPart.equals(")")) {
+                                        i++;
+                                        if (tokens.get(i).classPart.equals(";")) {
+                                            i++;
+                                            return true;
+
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+    private static boolean forr() {
+        if (tokens.get(i).classPart.equals("for")) {
+            i++;
+            if (tokens.get(i).classPart.equals("(")) {
+                i++;
+
+                if (c1()) {
+                    if (c2()) {
+                        if (tokens.get(i).classPart.equals(";")) {
+                            i++;
+
+                            if (c3()) {
+                                if (tokens.get(i).classPart.equals(")")) {
+                                    i++;
+                                    return bodyy();
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean c1() {
+        if (tokens.get(i).classPart.equals("dataType")) {
+
+            return dec();
+
+        } else if (tokens.get(i).classPart.equals("this") || tokens.get(i).classPart.equals("super") || tokens.get(i).classPart.equals("id")) {
+
+            if (asgn_st()) {
+                if (tokens.get(i).classPart.equals(";")) {
+                    i++;
+                    return true;
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean c2() {
+        if (tokens.get(i).classPart.equals("(") || tokens.get(i).classPart.equals("!") || tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("this") || tokens.get(i).classPart.equals("super") || tokens.get(i).classPart.equals("id") || tokens.get(i).classPart.equals("string") || tokens.get(i).classPart.equals("char") || tokens.get(i).classPart.equals("char") || tokens.get(i).classPart.equals("double")) {
+            return oe();
+        } else if (tokens.get(i).classPart.equals(";")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean c3() {
+        if (tokens.get(i).classPart.equals("inc-dec")) {
+            return inc_dec_st();
+        } else if (tokens.get(i).classPart.equals("this") || tokens.get(i).classPart.equals("super") || tokens.get(i).classPart.equals("id")) {
+            return asgn_st();
+        } else if (tokens.get(i).classPart.equals(")")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean asgn_st() {
+        if (tokens.get(i).classPart.equals("this") || tokens.get(i).classPart.equals("super") || tokens.get(i).classPart.equals("id")) {
+            if (th()) {
+                if (tokens.get(i).classPart.equals("id")) {
+                    i++;
+                    if (ref()) {
+                        if (tokens.get(i).classPart.equals(";")) {
+                            i++;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean inc_dec_st() {
+        if (tokens.get(i).classPart.equals("inc-dec")) {
+            i++;
+            if (th()) {
+                if (tokens.get(i).classPart.equals("id")) {
+                    i++;
+
+                    if (ref()) {
+                        if (tokens.get(i).classPart.equals(";")) {
+                            i++;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean sst() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
