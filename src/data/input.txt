@@ -1,24 +1,14 @@
-
-
-
 public class CcProject {
 
     public static void main() {
 
 }
-
- public int main() {
-      for(int i=1; i<1; ++i;){
-   a=1;
-if(i<n){}else{}
-
-}
-if(i<n){}else{}
+public int a (int a){}
 
 }
 
  
-}
+
 
 
 

@@ -769,7 +769,7 @@ public class MyCfg {
             i++;
             if (args()) {
                 if (tokens.get(i).classPart.equals(")")) {
-
+                       i++;
                     return x();
                 }
             }
@@ -1172,7 +1172,7 @@ public class MyCfg {
     }
 
     private static boolean mst() {
-        if (tokens.get(i).classPart.equals("id")||tokens.get(i).classPart.equals("super")||tokens.get(i).classPart.equals("this")||tokens.get(i).classPart.equals("do") || tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("while") || tokens.get(i).classPart.equals("if") || tokens.get(i).classPart.equals("return") || tokens.get(i).classPart.equals("for")) {
+        if (tokens.get(i).classPart.equals("id") || tokens.get(i).classPart.equals("super") || tokens.get(i).classPart.equals("this") || tokens.get(i).classPart.equals("do") || tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("while") || tokens.get(i).classPart.equals("if") || tokens.get(i).classPart.equals("return") || tokens.get(i).classPart.equals("for")) {
             if (sst()) {
                 return mst();
 
@@ -1450,23 +1450,29 @@ public class MyCfg {
                 }
             }
 
+        } else if (tokens.get(i).classPart.equals("(")) {
+            i++;
+            if (args()) {
+                if (tokens.get(i).classPart.equals(")")) {
+                    i++;
+                    if (tokens.get(i).classPart.equals("{")) {
+                        i++;
+                        if (mst()) {
+                            if (tokens.get(i).classPart.equals("}")) {
+                                i++;
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return false;
     }
 
     private static boolean sst2() {
-        if (tokens.get(i).classPart.equals("(")) {
-            i++;
-            if (args()) {
-                if (tokens.get(i).classPart.equals(")")) {
-                    i++;
-                    if (tokens.get(i).classPart.equals(";")) {
-                        return true;
-                    }
-                }
-            }
-        } else if (tokens.get(i).classPart.equals("id")) {
+        if (tokens.get(i).classPart.equals("id")) {
             i++;
             if (tokens.get(i).classPart.equals("=")) {
                 i++;
@@ -1486,62 +1492,25 @@ public class MyCfg {
                     }
                 }
             }
-        } else if (tokens.get(i).classPart.equals("=") || tokens.get(i).classPart.equals("CO")) {
-            if (asgn_op()) {
-                if (oe()) {
-                    if (tokens.get(i).classPart.equals(";")) {
+        } else if (tokens.get(i).classPart.equals(".")
+                || tokens.get(i).classPart.equals("[")
+                || tokens.get(i).classPart.equals("(")
+                || tokens.get(i).classPart.equals("=")
+                || tokens.get(i).classPart.equals(";")
+                || tokens.get(i).classPart.equals("CO")
+                || tokens.get(i).classPart.equals("mdm")
+                || tokens.get(i).classPart.equals("pm")) {
+            if (ref()) {
+                if (asgn_op()) {
+                    if (oe()){
+                      if(tokens.get(i).classPart.equals(";")){
                         i++;
                         return true;
-                    }
-                }
-            }
-        } else if (tokens.get(i).classPart.equals(".")) {
-            i++;
-            if (sst3()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean sst3() {
-        if (tokens.get(i).classPart.equals("id")) {
-            i++;
-            if (sst4()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean sst4() {
-        if (tokens.get(i).classPart.equals(".")) {
-            i++;
-            if (sst3()) {
-                return true;
-            }
-        } else if (tokens.get(i).classPart.equals("(")) {
-            i++;
-            if (args()) {
-                if (tokens.get(i).classPart.equals(")")) {
-                    i++;
-                    if (tokens.get(i).classPart.equals(";")) {
-                        i++;
-                        return true;
-                    }
-                }
-            }
-        } else if (tokens.get(i).classPart.equals("=") || tokens.get(i).classPart.equals("CO")) {
-            if (asgn_op()) {
-                if (oe()) {
-                    if (tokens.get(i).classPart.equals(";")) {
-                        i++;
-                        return true;
+                      }
                     }
                 }
             }
         }
-
         return false;
     }
 
