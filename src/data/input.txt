@@ -1,8 +1,4 @@
- class a{
-public int data(){
-a = 1;
-}
-}
+
 
 
 public class CcProject {
@@ -11,7 +7,17 @@ public class CcProject {
 
 }
 
+ public int main() {
+      for(int i=1; i<1; ++i;){
+   a=1;
+if(i<n){}else{}
 
+}
+if(i<n){}else{}
+
+}
+
+ 
 }
 
 

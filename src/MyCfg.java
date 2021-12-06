@@ -1172,7 +1172,7 @@ public class MyCfg {
     }
 
     private static boolean mst() {
-        if (tokens.get(i).classPart.equals("do") || tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("while") || tokens.get(i).classPart.equals("if") || tokens.get(i).classPart.equals("return") || tokens.get(i).classPart.equals("for")) {
+        if (tokens.get(i).classPart.equals("id")||tokens.get(i).classPart.equals("super")||tokens.get(i).classPart.equals("this")||tokens.get(i).classPart.equals("do") || tokens.get(i).classPart.equals("dataType") || tokens.get(i).classPart.equals("inc-dec") || tokens.get(i).classPart.equals("while") || tokens.get(i).classPart.equals("if") || tokens.get(i).classPart.equals("return") || tokens.get(i).classPart.equals("for")) {
             if (sst()) {
                 return mst();
 
@@ -1399,10 +1399,8 @@ public class MyCfg {
             }
 
         } else if (tokens.get(i).classPart.equals("inc-dec")) {
-            if (inc_dec_st()) {
+            return inc_dec_st();
 
-                return true;
-            }
         } else if (tokens.get(i).classPart.equals("while")) {
 
             return while_st();
