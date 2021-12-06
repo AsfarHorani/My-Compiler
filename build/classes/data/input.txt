@@ -2,11 +2,10 @@ public class CcProject {
 
     public static void main() {
 
+ 
 }
-public int a (int a){}
-
+  private int m(int a[][], ){}
 }
-
  
 
 
