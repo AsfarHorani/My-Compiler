@@ -1,6 +1,18 @@
+ class a{
+public int data(){
+a = 1;
+}
+}
+
+
 public class CcProject {
 
     public static void main() {
 
 }
+
+
 }
+
+
+

@@ -15,7 +15,7 @@ public class myCompiler {
         {"boolean", "dataType"},
         {"int", "dataType"},
        
-        {"String", "stringType"},
+        {"string", "dataType"},
         {"double", "dataType"},
         {"char", "dataType"},
         {"class", "class"},
@@ -438,7 +438,7 @@ public class myCompiler {
                 tokenList.add(new Token(valuePart, classPart, lineNo));
             } else if (isMyString(w)) {
                 String valuePart = "";
-                String classPart = "stri ng";
+                String classPart = "string";
                 String value = w;
                 for (int x = 1; x < value.length() - 1; x++) {
                     valuePart += w.charAt(x);
@@ -463,7 +463,7 @@ public class myCompiler {
                 tokenList.add(new Token(value, classPart, lineNo));
             }
         }
-
+        
         return tokenList;
     }
 
