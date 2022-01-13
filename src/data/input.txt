@@ -1,0 +1,14 @@
+public class A{
+ public void main(){
+
+}
+
+}
+
+ class A{
+
+
+ public void a(){}
+
+
+}
