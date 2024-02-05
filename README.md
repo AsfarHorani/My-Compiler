@@ -16,7 +16,7 @@ As part of my comprehensive study in compiler construction, I undertook a projec
 
 3. **Syntax Analysis:**
    - **Objective:** Verify Syntax using Context-Free Grammars (CFG)
-   - **Description:** Syntax analysis, or parsing, played a pivotal role in ensuring that the source code adhered to the specified language syntax. Context-Free Grammars (CFG) were employed to define the syntactic rules of the language. A parser was implemented to construct a syntax tree, representing the hierarchical structure of the program based on the grammar rules.
+   - **Description:** Syntax analysis, or parsing, played a pivotal role in ensuring that the source code adhered to the specified language syntax. Context-Free Grammars (CFG) were employed to define the syntactic rules of the language. A parser was implemented to construct a syntax tree, representing the hierarchical structure of the program based on the grammar rules. More description about cfg can be found in /CFG directory
 
 4. **Semantic Analysis (researched but not implemented yet let me know if anyone willing to contribute):**
    - **Objective:** Check for Scope and Enforce Semantic Rules
